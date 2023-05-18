@@ -57,12 +57,12 @@ public class App {
         stdin.nextLine();
 
         try {
-            List<Color> colors = ColorDAO.getColors();
-            for (Color c : colors) {
-                System.out.println(c.toString());
+            List<Event> events = EventDAO.getEvents();
+            for (Event e : events) {
+                System.out.println(e.toString());
             }
-        } catch (Exception e) {
-            System.out.printf("Error:: %s %n", e.getMessage());
+        } catch (DAOException ex) {
+            System.out.printf("Error:: %s %n", ex.getMessage());
         }
 
         System.out.println("Pulsa una tecla para continuar");
