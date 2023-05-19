@@ -2,7 +2,7 @@ package com.pluralcamp.daw.persistence.daos.impl.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,8 +20,9 @@ public class ColorDAOJDBCImpl implements ColorDAO {
         Color color = null;
         // 1er objecte - Connexio, via DriverManager de JDBC
         try (Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris", "entorn", "pluralcamp");
-                CallableStatement sentSQL = connection.prepareCall("CALL getColorById(?)");) {
+                "jdbc:mysql://localhost:3306/calendar-restore?serverTimezone=Europe/Paris", "root", "");
+                PreparedStatement sentSQL = connection
+                        .prepareStatement("SELECT id, name, red, green, blue FROM colors WHERE id = ?");) {
 
             sentSQL.setLong(1, id);
             try (ResultSet reader = sentSQL.executeQuery()) {
@@ -48,9 +49,9 @@ public class ColorDAOJDBCImpl implements ColorDAO {
         // 1er objecte - Connexio, via DriverManager de JDBC
 
         try (Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris", "entorn", "pluralcamp");
-                CallableStatement sentSQL = connection
-                        .prepareCall("CALL getColors(?)");
+                "jdbc:mysql://localhost:3306/calendar-restore?serverTimezone=Europe/Paris", "root", "");
+                PreparedStatement sentSQL = connection
+                        .prepareStatement("SELECT id, name, red, green, blue FROM colors");
                 ResultSet reader = sentSQL.executeQuery()) {
 
             while (reader.next()) {
@@ -70,8 +71,9 @@ public class ColorDAOJDBCImpl implements ColorDAO {
         List<Color> colors = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris", "entorn", "pluralcamp");
-                CallableStatement sentSQL = connection.prepareCall("CALL getColorsLimit(?, ?)")) {
+                "jdbc:mysql://localhost:3306/calendar-restore?serverTimezone=Europe/Paris", "root", "");
+                PreparedStatement sentSQL = connection
+                        .prepareStatement("SELECT id, name, red, green, blue FROM colors LIMIT ?, ?");) {
 
             sentSQL.setInt(1, offset);
             sentSQL.setInt(2, count);
@@ -96,8 +98,9 @@ public class ColorDAOJDBCImpl implements ColorDAO {
         List<Color> colors = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris", "entorn", "pluralcamp");
-                CallableStatement sentSQL = connection.prepareCall("CALL getColorsByName(?)")) {
+                "jdbc:mysql://localhost:3306/calendar-restore?serverTimezone=Europe/Paris", "root", "");
+                PreparedStatement sentSQL = connection
+                        .prepareStatement("SELECT id, name, red, green, blue FROM colors WHERE name LIKE ?");) {
 
             sentSQL.setString(1, "%" + searchTerm + "%");
 
@@ -121,8 +124,9 @@ public class ColorDAOJDBCImpl implements ColorDAO {
         List<Color> colors = new ArrayList<>();
 
         try (Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/calendar?serverTimezone=Europe/Paris", "entorn", "pluralcamp");
-                CallableStatement sentSQL = connection.prepareCall("CALL getColorsByNameLimit(?, ?, ?)")) {
+                "jdbc:mysql://localhost:3306/calendar-restore?serverTimezone=Europe/Paris", "root", "");
+                PreparedStatement sentSQL = connection.prepareStatement(
+                        "SELECT id, name, red, green, blue FROM colors WHERE name LIKE ? LIMIT ?, ?");) {
 
             sentSQL.setString(1, "%" + searchTerm + "%");
             sentSQL.setInt(2, offset);

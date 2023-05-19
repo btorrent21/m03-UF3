@@ -1,3 +1,4 @@
+
 package com.pluralcamp.daw.ui.console;
 import java.util.Scanner;
 
@@ -26,8 +27,9 @@ public class App {
             System.out.printf("Error:: %s %n", ex.getMessage());
         }
 
-        System.out.println("Pulsa una tecla para continuar");
+        System.out.println("Has hecho la consulta por ID, Pulsa una tecla para continuar -----------------------------------------------------------------");
         stdin.nextLine();
+
 
         try {
             List<Color> colors = ColorDAO.getColors();
@@ -38,10 +40,49 @@ public class App {
             System.out.printf("Error:: %s %n", e.getMessage());
         }
 
-        System.out.println("Pulsa una tecla para continuar");
+        System.out.println("Has hecho la consulta de todos los colores, Pulsa una tecla para continuar ------------------------------------------------------------");
         stdin.nextLine();
 
+        try {
+            List<Color> colors = ColorDAO.getColors(3,5);
+            for (Color c : colors) {
+                System.out.println(c.toString());
+            }
+        } catch (Exception e) {
+            System.out.printf("Error:: %s %n", e.getMessage());
+        }
+        
+        System.out.println("Has hecho la consulta de a partir de un parametro cuenta tantos segun parametro, Pulsa una tecla para continuar y buscar el Blue ---------------------------------------------------------");
+        stdin.nextLine();
+
+        try {
+            List<Color> colors = ColorDAO.getColors("blue");
+            for (Color c : colors) {
+                System.out.println(c.toString());
+            }
+        } catch (Exception e) {
+            System.out.printf("Error:: %s %n", e.getMessage());
+        }
+        
+        System.out.println("Has hecho la consulta de nombre 'Blue', Pulsa una tecla para continuar ---------------------------------------------------------------");
+        stdin.nextLine();
+
+        try {
+            List<Color> colors = ColorDAO.getColors("blue", 3,5);
+            for (Color c : colors) {
+                System.out.println(c.toString());
+            }
+        } catch (Exception e) {
+            System.out.printf("Error:: %s %n", e.getMessage());
+        }
+        
+        System.out.println("Has hecho la consulta de nombre 'blue', a partir de el parametro, contar segun el parametro, Pulsa una tecla para continuar ---------------------------------------------------");
+        stdin.nextLine();
+
+        
+
 // EVENTOSS -----------------------------------------------------
+
 
         try {
             Event e = EventDAO.getEventById(4);
